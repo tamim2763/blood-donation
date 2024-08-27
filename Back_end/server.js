@@ -13,16 +13,22 @@ const secretKey = 'yourSecretKey';
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors()); // Use CORS
+
+// CORS Configuration
+const corsOptions = {
+    origin: 'https://blood-donation-frontend-three.vercel.app', // Your frontend domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow credentials like cookies to be sent
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions)); // Use CORS middleware with options
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/blood-donation?retryWrites=true&w=majority&appName=donate-blood', {
-    // Remove the following options as they are deprecated
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log('MongoDB connection error:', err));
+mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/blood-donation?retryWrites=true&w=majority&appName=donate-blood')
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log('MongoDB connection error:', err));
 
 // Define User schema and model
 const userSchema = new mongoose.Schema({
@@ -49,16 +55,6 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-const corsOptions = {
-    origin: 'https://blood-donation-frontend-three.vercel.app', // Update with your GitHub Pages domain
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Allow credentials like cookies to be sent
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-};
-  
-app.use(cors(corsOptions));
-  
 // Routes
 app.post('/register', async (req, res) => {
     try {
@@ -92,10 +88,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/contact', async (req, res) => {
     try {
-        // Extract data from request body
         const { fullName, phone, email, message } = req.body;
 
-        // Create a new Contact model or schema
         const contact = new Contact({
             fullName,
             phone,
@@ -104,7 +98,6 @@ app.post('/contact', async (req, res) => {
             timestamp: new Date()  // Optionally add a timestamp
         });
 
-        // Save the contact form data to MongoDB
         await contact.save();
 
         res.status(201).send('Contact form submitted successfully');
@@ -113,7 +106,6 @@ app.post('/contact', async (req, res) => {
         res.status(400).send('Error submitting contact form');
     }
 });
-
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -132,7 +124,6 @@ app.get('/user', authenticateToken, async (req, res) => {
         const user = await User.findById(req.user.userId).select('-password'); // Exclude the password from the response
         if (!user) return res.status(404).send('User not found');
 
-        // Calculate status based on last donation date
         const lastDonationDate = user.lastDonation ? new Date(user.lastDonation) : null;
         const today = new Date();
         const fourMonthsAgo = new Date(today);
@@ -155,7 +146,6 @@ app.get('/find_donor/:bloodGroup', authenticateToken, async (req, res) => {
         const bloodGroup = req.params.bloodGroup;
         const users = await User.find({ bloodGroup });
 
-        // Calculate eligibility status
         const donors = users.filter(user => {
             const lastDonationDate = user.lastDonation ? new Date(user.lastDonation) : null;
             const today = new Date();
@@ -176,7 +166,6 @@ app.patch('/update-user', authenticateToken, async (req, res) => {
         const userId = req.user.userId;
         const updatedUser = req.body;
 
-        // Update user document in MongoDB
         const user = await User.findByIdAndUpdate(userId, updatedUser, { new: true });
 
         if (!user) {
