@@ -50,7 +50,7 @@ const contactSchema = new mongoose.Schema({
 const Contact = mongoose.model('Contact', contactSchema);
 
 const corsOptions = {
-    origin: 'https://tamim2763.github.io', // Update with your GitHub Pages domain
+    origin: 'https://blood-donation-frontend-three.vercel.app', // Update with your GitHub Pages domain
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Allow credentials like cookies to be sent
     preflightContinue: false,
