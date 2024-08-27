@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors()); // Use CORS
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/blood-donation?retryWrites=true&w=majority&appName=donate-blood', {
     // Remove the following options as they are deprecated
     // useNewUrlParser: true,
     // useUnifiedTopology: true
