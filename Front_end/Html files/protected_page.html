@@ -14,7 +14,7 @@
     </div>
     <script>
         const token = localStorage.getItem('token');
-        fetch('http://localhost:3000/user', {
+        fetch('https://backend-server-blood.vercel.app/user', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

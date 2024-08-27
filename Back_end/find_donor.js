@@ -19,7 +19,7 @@ async function fetchAndDisplayDonors(bloodGroup) {
             return;
         }
 
-        const response = await fetch(`http://localhost:3000/find_donor/${bloodGroup}`, {
+        const response = await fetch(`https://backend-server-blood.vercel.app/find_donor/${bloodGroup}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}` 
