@@ -26,7 +26,7 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Use CORS middleware with options
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/blood-donation?retryWrites=true&w=majority&appName=donate-blood')
+mongoose.connect('mongodb+srv://tamimihsan2763:L7EzEA0Ux6nglKyi@cluster0.np9li.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log('MongoDB connection error:', err));
 
