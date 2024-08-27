@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors()); // Use CORS
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/blood-donation', {
+mongoose.connect('mongodb+srv://tamim2763:AmimuL210708##@donate-blood.vmptm.mongodb.net/test?retryWrites=true&w=majority', {
     // Remove the following options as they are deprecated
     // useNewUrlParser: true,
     // useUnifiedTopology: true
@@ -49,15 +49,15 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// const corsOptions = {
-//     origin: 'https://tamim2763.github.io', // Update with your GitHub Pages domain
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true, // Allow credentials like cookies to be sent
-//     preflightContinue: false,
-//     optionsSuccessStatus: 204,
-// };
+const corsOptions = {
+    origin: 'https://tamim2763.github.io', // Update with your GitHub Pages domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow credentials like cookies to be sent
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
   
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
   
 // Routes
 app.post('/register', async (req, res) => {
